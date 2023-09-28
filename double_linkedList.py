@@ -1,6 +1,10 @@
 # Code for a doubly linked list and its graphical representation using matplotlib and networkx. 
 # A doubly linked list has nodes that point both to the next node and the previous node.
 
+# In this code, I added a search_and_highlight method that takes an element as input, 
+# searches for it in the linked list, and then displays the list with the target element highlighted in green if found.
+# If the element is not found, it informs the user.
+
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -32,7 +36,7 @@ class DoublyLinkedList:
             current = current.next
         print("None")
 
-    def plot(self):
+    def plot(self, target_data=None):
         G = nx.DiGraph()
         pos = {}
         labels = {}
@@ -43,7 +47,8 @@ class DoublyLinkedList:
             G.add_node(idx)
             pos[idx] = (idx, 0)
             labels[idx] = str(current.data)
-
+            if current.data == target_data:
+                labels[idx] = str(current.data) + " (Green)"
             if current.next:
                 G.add_edge(idx, idx + 1)
             if current.prev:
@@ -52,10 +57,25 @@ class DoublyLinkedList:
             current = current.next
 
         plt.figure(figsize=(len(G) * 0.5, 1))
-        nx.draw(G, pos, with_labels=True, labels=labels, node_size=500, node_color='lightblue', font_size=10, font_color='black')
+        nx.draw(G, pos, with_labels=True, labels=labels, node_size=500, font_size=10, font_color='black')
         plt.title("Doubly Linked List Visualization")
         plt.axis('off')
         plt.show()
+
+    def search_and_highlight(self, element):
+        current = self.head
+        found = False
+        while current:
+            if current.data == element:
+                found = True
+                break
+            current = current.next
+
+        if found:
+            print(f"Element {element} found in the list.")
+            self.plot(element)
+        else:
+            print(f"Element {element} not found in the list.")
 
 # Example usage:
 if __name__ == "__main__":
@@ -68,4 +88,5 @@ if __name__ == "__main__":
     print("Doubly Linked List:")
     doubly_linked_list.display()
     
-    doubly_linked_list.plot()
+    search_element = int(input("Enter an element to search and highlight: "))
+    doubly_linked_list.search_and_highlight(search_element)
