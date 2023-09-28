@@ -40,6 +40,8 @@ class DoublyLinkedList:
         G = nx.DiGraph()
         pos = {}
         labels = {}
+        node_colors = []
+        edge_colors = []
         current = self.head
         idx = 0
 
@@ -48,7 +50,11 @@ class DoublyLinkedList:
             pos[idx] = (idx, 0)
             labels[idx] = str(current.data)
             if current.data == target_data:
-                labels[idx] = str(current.data) + " (Green)"
+                node_colors.append('red')
+                edge_colors.append('red')
+            else:
+                node_colors.append('lightblue')
+                edge_colors.append('black')
             if current.next:
                 G.add_edge(idx, idx + 1)
             if current.prev:
@@ -57,7 +63,7 @@ class DoublyLinkedList:
             current = current.next
 
         plt.figure(figsize=(len(G) * 0.5, 1))
-        nx.draw(G, pos, with_labels=True, labels=labels, node_size=500, font_size=10, font_color='black')
+        nx.draw(G, pos, with_labels=True, labels=labels, node_size=500, font_size=10, font_color='black', node_color=node_colors, edge_color=edge_colors)
         plt.title("Doubly Linked List Visualization")
         plt.axis('off')
         plt.show()
