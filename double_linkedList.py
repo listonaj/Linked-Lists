@@ -1,3 +1,6 @@
+# Code for a doubly linked list and its graphical representation using matplotlib and networkx. 
+# A doubly linked list has nodes that point both to the next node and the previous node.
+
 import networkx as nx
 import matplotlib.pyplot as plt
 
